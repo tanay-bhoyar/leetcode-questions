@@ -1,0 +1,62 @@
+// Leetcode 234. Palindrome Linked List
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if(head.next==null){
+            return true;
+        }
+        ListNode curr = head;
+        int n = 0;
+        while(curr!=null){
+            curr= curr.next;
+            n++;
+        }
+        curr = head;
+        if(n%2==0){
+            n = n/2;
+        }
+        else if(n%2==1){
+            n=(n/2)+1;
+        }
+
+        for(int i=0;i<n;i++){
+            curr=curr.next;
+        }
+
+        ListNode newhead = curr;
+        if(curr!=null||curr.next!=null){
+            ListNode prev=curr;
+            ListNode now = curr.next;
+            while(now!=null){
+                ListNode next = now.next;
+                now.next=prev;
+                prev=now;
+                now = next;
+            }
+            newhead.next=null;
+            newhead=prev;
+        }
+
+        while(newhead!=null){
+            if(newhead.val != head.val){
+                return false;
+            }
+            else{
+                newhead=newhead.next;
+                head=head.next;
+            }
+        }
+        
+        return true;
+    }
+}
